@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Portal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="payment-container">
+        <h2>Dummy Payment Portal</h2>
+        <p>Total Amount: ₹<span id="payment-amount">0</span></p>
+        <p id="error-message" style="color: red; display: none;">Total amount is missing. Please return to the cart.</p>
+
+        <h3>Select Payment Method:</h3>
+        <div class="payment-methods">
+            <button onclick="selectPayment('upi')">UPI</button>
+            <button onclick="selectPayment('credit')">Credit Card</button>
+            <button onclick="selectPayment('netbanking')">Net Banking</button>
+            <button onclick="selectPayment('paypal')">PayPal</button>
+        </div>
+
+        <div class="payment-logo">
+            <img id="payment-logo-img" src="images/default.jpg" alt="Payment Method">
+        </div>
+
+        <!-- Payment Forms -->
+        <div id="payment-forms">
+            <div id="upi-form" class="payment-form">
+                <h3>Enter UPI ID</h3>
+                <input type="text" id="upi-id" placeholder="yourname@upi">
+                <button onclick="processPayment('UPI')">Pay Now</button>
+            </div>
+
+            <div id="credit-form" class="payment-form">
+                <h3>Enter Card Details</h3>
+                <input type="text" id="card-number" placeholder="Card Number" maxlength="16">
+                <input type="text" id="expiry-date" placeholder="MM/YY" maxlength="5">
+                <input type="password" id="cvv" placeholder="CVV" maxlength="3">
+                <button onclick="processPayment('Credit Card')">Pay Now</button>
+            </div>
+
+            <div id="netbanking-form" class="payment-form">
+                <h3>Net Banking</h3>
+                <p>Logged in as: <strong>John Doe</strong> (Dummy Account)</p>
+                <button onclick="processPayment('Net Banking')">Pay Now</button>
+            </div>
+
+            <div id="paypal-form" class="payment-form">
+                <h3>PayPal Account</h3>
+                <p>Logged in as: <strong>rohith@slicepay.com</strong></p>
+                <button onclick="processPayment('PayPal')">Pay Now</button>
+            </div>
+        </div>
+
+        <button onclick="cancelPayment()">Cancel</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let totalAmount = sessionStorage.getItem("totalAmount");
+
+            if (!totalAmount || totalAmount === "0") {
+                document.getElementById("payment-amount").innerText = "0";
+                document.getElementById("error-message").style.display = "block";
+            } else {
+                document.getElementById("payment-amount").innerText = totalAmount;
+            }
+        });
+
+        function selectPayment(method) {
+            const logoImg = document.getElementById("payment-logo-img");
+            const paymentForms = document.querySelectorAll(".payment-form");
+            paymentForms.forEach(form => form.style.display = "none");
+
+            const paymentLogos = {
+                upi: "images/upi.jpg",
+                credit: "images/creditcard.jpg",
+                netbanking: "images/netbanking.jpg",
+                paypal: "images/paypal.jpg"
+            };
+
+            logoImg.src = paymentLogos[method] || "images/default.jpg";
+            document.getElementById(`${method}-form`).style.display = "block";
+        }
+
+        function processPayment(method) {
+            let isValid = false;
+
+            if (method === "UPI") {
+                const upiId = document.getElementById("upi-id").value;
+                isValid = upiId.includes("@");
+            } 
+            else if (method === "Credit Card") {
+                const cardNum = document.getElementById("card-number").value;
+                const expiry = document.getElementById("expiry-date").value;
+                const cvv = document.getElementById("cvv").value;
+                isValid = cardNum.length === 16 && expiry.length === 5 && cvv.length === 3;
+            } 
+            else if (method === "Net Banking" || method === "PayPal") {
+                isValid = true;
+            }
+
+            if (isValid) {
+                alert(`Payment successful using ${method}!`);
+                sessionStorage.clear();
+                window.location.href = "index.html";
+            } else {
+                alert("Please enter valid details.");
+            }
+        }
+
+        function cancelPayment() {
+            alert("Payment cancelled.");
+            window.location.href = "index.html";
+        }
+    </script>
+
+    <style>
+        .payment-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .payment-methods button {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .payment-logo img {
+            width: 100px;
+            height: 100px;
+            margin-top: 20px;
+        }
+
+        .payment-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .payment-form input {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            width: 80%;
+            max-width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .payment-form button {
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</body>
+</html>

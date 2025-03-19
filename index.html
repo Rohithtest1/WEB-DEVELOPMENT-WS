@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Ordering System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header-container">
+        <div class="user-info">
+            <img src="images/user.jpg" alt="User Photo" class="user-photo">
+            <span>Hello Rohith, CHENNAI TAMILNADU INDIA</span>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li class="dropdown">Profile
+                    <ul class="dropdown-menu">
+                        <li>My Orders</li>
+                        <li>Settings</li>
+                        <li>Addresses</li>
+                    </ul>
+                </li>
+                <li class="dropdown">Help
+                    <ul class="dropdown-menu">
+                        <li>Refunds</li>
+                        <li>Discounts</li>
+                        <li>Disputes</li>
+                        <li>Queries</li>
+                    </ul>
+                </li>
+                <li class="dropdown">About Us
+                    <ul class="dropdown-menu">
+                        <li>Fast and reliable food ordering service.</li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Restaurants Section -->
+    <section class="restaurant-list">
+        <h2>Select a Restaurant</h2>
+        <div class="restaurants">
+            <button onclick="showMenu('kfc')"><img src="images/kfc.jpg" alt="KFC">KFC</button>
+            <button onclick="showMenu('mcdonalds')"><img src="images/mcdonalds.jpg" alt="McDonald's">McDonald's</button>
+            <button onclick="showMenu('subway')"><img src="images/subway.jpg" alt="Subway">Subway</button>
+            <button onclick="showMenu('burgerking')"><img src="images/burgerking.jpg" alt="Burger King">Burger King</button>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu">
+        <h2>Menu</h2>
+        <div id="menu-items"></div>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart">
+        <h2>Shopping Cart</h2>
+        <div id="cart-items"></div>
+        <p>Total Amount: ₹<span id="total-amount">0</span></p>
+        <button onclick="proceedToPayment()">Proceed to Payment</button>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
